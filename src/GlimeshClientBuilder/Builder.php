@@ -173,7 +173,7 @@ class Builder extends AbstractBuilder
 
     private function writeCode(string $code, string $typeKind, string $fileName): void
     {
-        $path = $this->config->getOutputDirectory() . '' . $this->paths[$typeKind] ?? null;
+        $path = $this->config->getOutputDirectory() . '' . ($this->paths[$typeKind] ?? null);
         if (!file_exists($path)) {
             mkdir($path, 0777, true);
         }

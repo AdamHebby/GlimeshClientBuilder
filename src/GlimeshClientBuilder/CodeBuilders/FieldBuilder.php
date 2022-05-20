@@ -30,7 +30,7 @@ class FieldBuilder extends AbstractBuilder
     public function buildField(array $field): string
     {
         if (($field['isDeprecated'] ?? false) === true) {
-            return null;
+            return '';
         }
 
         $fieldType = $this->objectResolver->resolveField($field);
