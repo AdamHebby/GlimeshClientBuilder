@@ -6,15 +6,17 @@ class SchemaInterfacePossibleType extends AbstractSchemaType
 {
     public static string $type = 'OBJECT';
 
-    public readonly string $name;
-    public readonly ?string $ofType;
+    public function __construct(
+        public readonly string $name,
+        public readonly ?string $ofType
+    ) {
+    }
 
     public static function createFromArray(array $schema): self
     {
-        $newInterface = new self();
-        $newInterface->name   = $schema['name'];
-        $newInterface->ofType = $schema['ofType'];
-
-        return $newInterface;
+        return new self(
+            $schema['name'],
+            $schema['ofType']
+        );
     }
 }
