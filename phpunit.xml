@@ -2,15 +2,14 @@
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" executionOrder="depends,defects" beStrictAboutOutputDuringTests="true" cacheResult="false" verbose="true" colors="true">
     <coverage processUncoveredFiles="true">
         <include>
-            <directory suffix=".php">src/GlimeshClient/</directory>
-            <directory suffix=".php">bin/Builder/</directory>
+            <directory suffix=".php">src/GlimeshClientBuider/</directory>
         </include>
         <report>
             <html outputDirectory="tests/reports/" lowUpperBound="50" highLowerBound="90"/>
         </report>
     </coverage>
     <testsuites>
-        <testsuite name="GlimeshClient">
+        <testsuite name="GlimeshClientBuilder">
             <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
