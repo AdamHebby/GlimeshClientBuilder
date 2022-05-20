@@ -1,0 +1,12 @@
+<?php
+
+namespace %BUILDER_NAMESPACE%\Objects\Input;
+
+/**
+ * %BUILDER_DESCRIPTION%
+%BUILDER_STANDARD_DOCBLOCK%
+ */
+class %BUILDER_NAME% extends AbstractInputObjectModel
+{
+%BUILDER_FIELDS%
+}

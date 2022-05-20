@@ -1,0 +1,12 @@
+<?php
+
+namespace %BUILDER_NAMESPACE%\Objects\Enums;
+
+/**
+ * %BUILDER_DESCRIPTION%
+%BUILDER_STANDARD_DOCBLOCK%
+ */
+enum %BUILDER_NAME%: string
+{
+%BUILDER_ENUM_VALUES%
+}
