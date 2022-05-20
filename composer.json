@@ -1,0 +1,28 @@
+{
+    "name": "adamhebby/glimesh-client-builder",
+    "description": "Builds Object models based on glimesh.tv GraphQL API Schema",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "GlimeshClientBuilder\\": "src/GlimeshClientBuilder/"
+        }
+    },
+    "authors": [
+        {
+            "role": "Owner & Author",
+            "name": "Adam Hebden",
+            "email": "adam@adamhebden.com",
+            "homepage": "https://github.com/AdamHebby/GlimeshClientBuilder"
+        }
+    ],
+    "scripts": {
+        "test": "phpunit"
+    },
+    "require": {
+        "php": ">=8.1.0"
+    },
+    "require-dev": {
+        "phpunit/php-code-coverage": "^9.2",
+        "phpunit/phpunit": "^9.5"
+    }
+}
