@@ -24,7 +24,7 @@ class Builder extends AbstractBuilder
     /**
      * Paths config, where to place each object type
      *
-     * @var array
+     * @var array<string,string>
      */
     public array $paths = [
         'INTERFACE'     => '/Interfaces',
@@ -41,9 +41,7 @@ class Builder extends AbstractBuilder
     public static string $ROOT_DIR;
 
     /**
-     * Constructor, loads the API JSON from path
-     *
-     * @param string $apiJsonFilePath
+     * Constructor, loads the API JSON from path & sets up builders & config
      */
     public function __construct(BuilderConfig $config) {
         $this->setConfig($config);
