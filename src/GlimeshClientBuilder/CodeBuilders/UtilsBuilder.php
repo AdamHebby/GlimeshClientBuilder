@@ -50,12 +50,20 @@ class UtilsBuilder extends AbstractBuilder
             []
         );
     }
+    public function buildAbstractinputObjectModel(): string
+    {
+        return $this->templateValues(
+            $this->config->getRootDirectory() . '/resources/AbstractInputObjectModel.php.txt',
+            []
+        );
+    }
 
     private function buildClassArray(array $mapping): array
     {
         $code = [];
         $maxLen = max(array_map('strlen', array_keys($mapping)));
 
+        // TODO: FIX THIS
         foreach ($mapping as $key => $object) {
             $object = trim($object, '\\');
             $class = "\GlimeshClient\Objects\\{$object}";

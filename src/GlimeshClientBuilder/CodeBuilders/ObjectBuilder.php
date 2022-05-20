@@ -10,7 +10,7 @@ class ObjectBuilder extends AbstractBuilder
         private FieldBuilder $fieldBuilder
     ) {}
 
-    public function buildObjectCode(
+    public function buildObject(
         array $object
     ): string {
         $fields = $object['fields'];
@@ -74,7 +74,7 @@ class ObjectBuilder extends AbstractBuilder
 
     protected function getFieldUsage(array $fields): array
     {
-        $baseNamespace = 'GlimeshClient\\Objects';
+        $baseNamespace = $this->config->getNamespace() . '\\Objects';
         $use = [];
 
         foreach ($fields as $field) {

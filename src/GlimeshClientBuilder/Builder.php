@@ -4,7 +4,10 @@ namespace GlimeshClientBuilder;
 
 use GlimeshClientBuilder\BuilderConfig;
 use GlimeshClientBuilder\CodeBuilders\AbstractBuilder;
+use GlimeshClientBuilder\CodeBuilders\EnumBuilder;
 use GlimeshClientBuilder\CodeBuilders\FieldBuilder;
+use GlimeshClientBuilder\CodeBuilders\InputObjectBuilder;
+use GlimeshClientBuilder\CodeBuilders\InterfaceBuilder;
 use GlimeshClientBuilder\CodeBuilders\ObjectBuilder;
 use GlimeshClientBuilder\CodeBuilders\UtilsBuilder;
 use GlimeshClientBuilder\Resolver\ObjectResolver;
@@ -38,6 +41,9 @@ class Builder extends AbstractBuilder
     private ObjectResolver $objectResolver;
     private FieldBuilder $fieldBuilder;
     private ObjectBuilder $objectBuilder;
+    private EnumBuilder $enumBuilder;
+    private InterfaceBuilder $interfaceBuilder;
+    private InputObjectBuilder $inputObjectBuilder;
     public static string $ROOT_DIR;
 
     /**
@@ -53,73 +59,19 @@ class Builder extends AbstractBuilder
             true
         )['data']['__schema']['types'];
 
-        $this->resolver       = new SchemaMappingResolver($schema);
-        $this->objectResolver = new ObjectResolver($this->resolver);
-        $this->fieldBuilder   = new FieldBuilder($this->objectResolver, $this->resolver);
-        $this->objectBuilder  = new ObjectBuilder($this->fieldBuilder);
+        $this->resolver           = new SchemaMappingResolver($schema);
+        $this->objectResolver     = new ObjectResolver($this->resolver);
+        $this->fieldBuilder       = new FieldBuilder($this->objectResolver, $this->resolver);
+        $this->objectBuilder      = new ObjectBuilder($this->fieldBuilder);
+        $this->enumBuilder        = new EnumBuilder();
+        $this->interfaceBuilder   = new InterfaceBuilder();
+        $this->inputObjectBuilder = new InputObjectBuilder($this->fieldBuilder);
 
         $this->fieldBuilder->setConfig($this->config);
         $this->objectBuilder->setConfig($this->config);
-    }
-
-    /**
-     * Builds a single Input Object class string, including all fields
-     *
-     * @param array $type
-     *
-     * @return string
-     */
-    public function buildInputObject(array $type): string
-    {
-        return $this->templateValues(
-            $this->config->getRootDirectory() . '/resources/input_object.php.txt',
-            [
-                '%BUILDER_DESCRIPTION%' => $type['description'] ?? 'Description not provided',
-                '%BUILDER_NAME%' => $type['name'],
-                '%BUILDER_FIELDS%' => $this->fieldBuilder->buildFields($type['inputFields']),
-            ]
-        );
-    }
-
-    /**
-     * Builds a single Interface string
-     *
-     * @param array $type
-     *
-     * @return string
-     */
-    public function buildInterface(array $type): string
-    {
-        return $this->templateValues(
-           $this->config->getRootDirectory() . '/resources/interface.php.txt',
-            [
-                '%BUILDER_DESCRIPTION%' => $type['description'] ?? 'Description not provided',
-                '%BUILDER_NAME%' => $type['name'],
-            ]
-        );
-    }
-
-    /**
-     * Builds a single ENUM object string, including any static fields
-     *
-     * @param array $type
-     *
-     * @return string
-     */
-    public function buildENUM(array $type): string
-    {
-        $enumValues = array_map(function ($enum) {
-            return "    case {$enum['name']} = \"{$enum['name']}\";";
-        }, $type['enumValues'] ?? []);
-
-        return $this->templateValues(
-           $this->config->getRootDirectory() . '/resources/enum.php.txt',
-            [
-                '%BUILDER_DESCRIPTION%' => $type['description'] ?? 'Description not provided',
-                '%BUILDER_NAME%' => $type['name'],
-                '%BUILDER_ENUM_VALUES%' => implode("\n", $enumValues),
-            ]
-        );
+        $this->enumBuilder->setConfig($this->config);
+        $this->interfaceBuilder->setConfig($this->config);
+        $this->inputObjectBuilder->setConfig($this->config);
     }
 
     /**
@@ -130,23 +82,35 @@ class Builder extends AbstractBuilder
     public function build()
     {
         foreach ($this->resolver->getInterfaces() as $interface) {
-            $code = $this->buildEnum($interface);
-            $this->writeCode($code, $interface['kind'], $interface['name']);
+            $this->writeCode(
+                $this->interfaceBuilder->buildInterface($interface),
+                $interface['kind'],
+                $interface['name']
+            );
         }
 
         foreach ($this->resolver->getEnums() as $enum) {
-            $code = $this->buildEnum($enum);
-            $this->writeCode($code, $enum['kind'], $enum['name']);
+            $this->writeCode(
+                $this->enumBuilder->buildEnum($enum),
+                $enum['kind'],
+                $enum['name']
+            );
         }
 
         foreach ($this->resolver->getInputObjects() as $inputs) {
-            $code = $this->buildEnum($inputs);
-            $this->writeCode($code, $inputs['kind'], $inputs['name']);
+            $this->writeCode(
+                $this->inputObjectBuilder->buildInputObject($inputs),
+                $inputs['kind'],
+                $inputs['name']
+            );
         }
 
         foreach ($this->resolver->getObjects() as $object) {
-            $code = $this->objectBuilder->buildObjectCode($object);
-            $this->writeCode($code, $object['kind'], $object['name']);
+            $this->writeCode(
+                $this->objectBuilder->buildObject($object),
+                $object['kind'],
+                $object['name']
+            );
         }
 
         $utilsBuilder = new UtilsBuilder($this->resolver);
@@ -168,6 +132,11 @@ class Builder extends AbstractBuilder
             $utilsBuilder->buildAbstractObjectModel(),
             'OBJECT',
             'AbstractObjectModel'
+        );
+        $this->writeCode(
+            $utilsBuilder->buildAbstractInputObjectModel(),
+            'INPUT_OBJECT',
+            'AbstractInputObjectModel'
         );
     }
 
