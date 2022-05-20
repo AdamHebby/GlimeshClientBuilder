@@ -5,8 +5,8 @@ namespace GlimeshClientBuilder\Schema;
 class SchemaFieldArg extends AbstractSchemaType
 {
     public function __construct(
-        public readonly string $defaultValue,
-        public readonly string $description,
+        public readonly ?string $defaultValue,
+        public readonly ?string $description,
         public readonly string $name,
         public readonly SchemaType $type
     ) {}

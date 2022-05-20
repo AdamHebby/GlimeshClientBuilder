@@ -4,7 +4,8 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "GlimeshClientBuilder\\": "src/GlimeshClientBuilder/"
+            "GlimeshClientBuilder\\": "src/GlimeshClientBuilder/",
+            "GlimeshClientBuilder\\Tests\\": "tests/GlimeshClientBuilder/"
         }
     },
     "authors": [

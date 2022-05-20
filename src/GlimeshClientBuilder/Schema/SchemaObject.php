@@ -4,30 +4,22 @@ namespace GlimeshClientBuilder\Schema;
 
 class SchemaObject extends AbstractSchemaType
 {
+    /**
+     * @param SchemaEnumValue[]             $enumValues
+     * @param SchemaField[]                 $fields
+     * @param SchemaInterfacePossibleType[] $possibleTypes
+     * @param SchemaInterface[]             $interfaces
+     * @param SchemaInputField[]            $inputFields
+     */
     public function __construct(
         public readonly string $kind,
         public readonly string $name,
         public readonly ?string $description,
-        /**
-         * @var ?SchemaEnumValue[]
-         */
-        public readonly ?array $enumValues,
-        /**
-         * @var ?SchemaField[]
-         */
-        public readonly ?array $fields,
-        /**
-         * @var ?SchemaInterfacePossibleType[]
-         */
-        public readonly ?array $possibleTypes,
-        /**
-         * @var ?SchemaInterface[]
-         */
-        public readonly ?array $interfaces,
-        /**
-         * @var ?SchemaInputField[]
-         */
-        public readonly ?array $inputFields
+        public readonly array $enumValues,
+        public readonly array $fields,
+        public readonly array $possibleTypes,
+        public readonly array $interfaces,
+        public readonly array $inputFields
     ) {}
 
     public static function createFromArray(array $schema): self
