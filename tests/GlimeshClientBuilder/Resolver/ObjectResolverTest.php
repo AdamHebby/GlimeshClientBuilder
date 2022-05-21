@@ -2,7 +2,6 @@
 
 namespace GlimeshClientBuilder\Resolver;
 
-use GlimeshClientBuilder\Schema\Schema;
 use GlimeshClientBuilder\Schema\SchemaField;
 use GlimeshClientBuilder\Schema\SchemaType;
 use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
