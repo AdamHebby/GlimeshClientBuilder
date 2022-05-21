@@ -2,6 +2,9 @@
 
 namespace GlimeshClientBuilder\Resolver;
 
+use GlimeshClientBuilder\Schema\SchemaField;
+use GlimeshClientBuilder\Schema\SchemaInputField;
+
 class ObjectResolver
 {
     public static array $replacements = [
@@ -25,7 +28,7 @@ class ObjectResolver
 
         $mapSingle = $mapMulitple = [];
         foreach ($objects as $object) {
-            $fields = $object['fields'];
+            $fields = $object->fields;
 
             foreach ($fields as $field) {
                 $resolvedType = $this->resolveField($field);
@@ -34,12 +37,12 @@ class ObjectResolver
                     continue;
                 }
                 if (
-                    (isset($field['type']['kind']) && $field['type']['kind'] === 'LIST') ||
-                    isset($connectionNodeMap[$field['type']['name']])
+                    (isset($field->type->kind) && $field->type->kind === 'LIST') ||
+                    isset($connectionNodeMap[$field->type->name])
                 ) {
-                    $mapMulitple[$field['name']] = $resolvedType;
+                    $mapMulitple[$field->name] = $resolvedType;
                 } else {
-                    $mapSingle[$field['name']] = $resolvedType;
+                    $mapSingle[$field->name] = $resolvedType;
                 }
             }
         }
@@ -47,9 +50,9 @@ class ObjectResolver
         return [$mapSingle, $mapMulitple];
     }
 
-    public function resolveField(array $field): string
+    public function resolveField(SchemaInputField|SchemaField $field): string
     {
-        $typeName = isset($field['type']['name']) ? $field['type']['name'] : '';
+        $typeName = isset($field->type->name) ? $field->type->name : '';
 
         $resolvedType = null;
 
@@ -63,8 +66,8 @@ class ObjectResolver
             $resolvedType = preg_replace('/(.*?)\\\([a-z]+)$/i', "$2", $resolvedType);
         }
 
-        if ($resolvedType === null && isset($field['type']['ofType']['name'])) {
-            $resolvedType = $field['type']['ofType']['name'];
+        if ($resolvedType === null && isset($field->type->ofType->name)) {
+            $resolvedType = $field->type->ofType->name;
         }
 
         if (in_array(strtolower($resolvedType), ['string', 'int'])) {

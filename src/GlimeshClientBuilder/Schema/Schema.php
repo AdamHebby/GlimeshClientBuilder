@@ -7,7 +7,7 @@ class Schema
     /**
      * @var SchemaObject[]
      */
-    public readonly array $schemaObjects;
+    public array $schemaObjects;
 
     public function __construct(array $data)
     {

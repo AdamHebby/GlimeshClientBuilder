@@ -12,6 +12,7 @@ use GlimeshClientBuilder\CodeBuilders\ObjectBuilder;
 use GlimeshClientBuilder\CodeBuilders\UtilsBuilder;
 use GlimeshClientBuilder\Resolver\ObjectResolver;
 use GlimeshClientBuilder\Resolver\SchemaMappingResolver;
+use GlimeshClientBuilder\Schema\Schema;
 
 /**
  * Project builder class for building all Objects, interfaces, enums etc from
@@ -54,10 +55,7 @@ class Builder extends AbstractBuilder
 
         self::$ROOT_DIR = $this->config->getRootDirectory();
 
-        $schema = json_decode(
-            file_get_contents($this->config->getApiJsonFilePath()),
-            true
-        )['data']['__schema']['types'];
+        $schema = Schema::loadFromJsonFile($this->config->getApiJsonFilePath());
 
         $this->resolver           = new SchemaMappingResolver($schema);
         $this->objectResolver     = new ObjectResolver($this->resolver);
@@ -84,32 +82,32 @@ class Builder extends AbstractBuilder
         foreach ($this->resolver->getInterfaces() as $interface) {
             $this->writeCode(
                 $this->interfaceBuilder->buildInterface($interface),
-                $interface['kind'],
-                $interface['name']
+                $interface->kind,
+                $interface->name
             );
         }
 
         foreach ($this->resolver->getEnums() as $enum) {
             $this->writeCode(
                 $this->enumBuilder->buildEnum($enum),
-                $enum['kind'],
-                $enum['name']
+                $enum->kind,
+                $enum->name
             );
         }
 
         foreach ($this->resolver->getInputObjects() as $inputs) {
             $this->writeCode(
                 $this->inputObjectBuilder->buildInputObject($inputs),
-                $inputs['kind'],
-                $inputs['name']
+                $inputs->kind,
+                $inputs->name
             );
         }
 
         foreach ($this->resolver->getObjects() as $object) {
             $this->writeCode(
                 $this->objectBuilder->buildObject($object),
-                $object['kind'],
-                $object['name']
+                $object->kind,
+                $object->name
             );
         }
 

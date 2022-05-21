@@ -2,6 +2,10 @@
 
 namespace GlimeshClientBuilder\Resolver;
 
+use GlimeshClientBuilder\Schema\Schema;
+use GlimeshClientBuilder\Schema\SchemaField;
+use GlimeshClientBuilder\Schema\SchemaObject;
+
 /**
  * Resolves Connection objects in the Schema to their corresponding objects
  */
@@ -10,22 +14,22 @@ class SchemaConnectionNodeMapResolver
     /**
      * Resolves the schema to a connection node map
      *
-     * @param array $schema The schema to resolve
+     * @param Schema $schema The schema to resolve
      *
      * @return array
      */
-    public static function resolveSchema(array $schema): array
+    public static function resolveSchema(Schema $schema): array
     {
         $connectionEdgeMap = $nodeObjectMap = $connectionNodeMap = [];
 
-        foreach ($schema as $type) {
-            $fields = $type['fields'] ?? [];
+        foreach ($schema->schemaObjects as $type) {
+            $fields = $type->fields ?? [];
             if (self::isANode($type)) {
-                $connectionEdgeMap[$type['name']] = self::getEdgeFromConnectionFields($fields);
+                $connectionEdgeMap[$type->name] = self::getEdgeFromConnectionFields($fields);
             }
 
             if (self::isAnEdge($type)) {
-                $nodeObjectMap[$type['name']] = self::getNodeFromEdgeFields($fields);
+                $nodeObjectMap[$type->name] = self::getNodeFromEdgeFields($fields);
             }
         }
 
@@ -40,58 +44,36 @@ class SchemaConnectionNodeMapResolver
         return $connectionNodeMap;
     }
 
-    /**
-     * Is the field an edge?
-     *
-     * @param array $field
-     *
-     * @return bool
-     */
-    public static function isAnEdge(array $field): bool
+    public static function isAnEdge(SchemaObject $field): bool
     {
-        return str_ends_with($field['name'] ?? '', 'Edge');
+        return str_ends_with($field->name ?? '', 'Edge');
+    }
+
+    public static function isANode(SchemaObject $field): bool
+    {
+        return str_ends_with($field->name ?? '', 'Connection');
     }
 
     /**
-     * Is the field a node?
-     *
-     * @param array $field
-     *
-     * @return bool
-     */
-    public static function isANode(array $field): bool
-    {
-        return str_ends_with($field['name'] ?? '', 'Connection');
-    }
-
-    /**
-     * get the edge from the connection fields
-     *
-     * @param array $fields
-     *
-     * @return string
+     * @param SchemaField[] $fields
      */
     protected static function getEdgeFromConnectionFields(array $fields): string
     {
         foreach ($fields as $field) {
-            if ($field['name'] === 'edges') {
-                return $field['type']['ofType']['name'];
+            if ($field->name === 'edges') {
+                return $field->type->ofType->name;
             }
         }
     }
 
     /**
-     * get the node from the edge fields
-     *
-     * @param array $fields
-     *
-     * @return string
+     * @param SchemaField[] $fields
      */
     protected static function getNodeFromEdgeFields(array $fields): string
     {
         foreach ($fields as $field) {
-            if ($field['name'] === 'node') {
-                return $field['type']['name'];
+            if ($field->name === 'node') {
+                return $field->type->name;
             }
         }
     }

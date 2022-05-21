@@ -2,6 +2,9 @@
 
 namespace GlimeshClientBuilder\Resolver;
 
+use GlimeshClientBuilder\Schema\Schema;
+use GlimeshClientBuilder\Schema\SchemaObject;
+
 /**
  * Resolves Connection objects in the Schema to their corresponding objects
  */
@@ -29,7 +32,7 @@ class SchemaMappingResolver
     ];
 
     public function __construct(
-        array $schema
+        Schema $schema
     ) {
         $schema = $this->unsetUnacceptedObjects($schema);
 
@@ -37,53 +40,65 @@ class SchemaMappingResolver
             $schema
         );
 
-        foreach ($schema as $type) {
+        foreach ($schema->schemaObjects as $type) {
             if (SchemaConnectionNodeMapResolver::isAnEdge($type) ||
                 SchemaConnectionNodeMapResolver::isANode($type)
             ) {
                 continue;
             }
 
-            switch ($type['kind']) {
+            switch ($type->kind) {
                 case 'OBJECT':
-                    $this->objects[$type['name']] = $type;
+                    $this->objects[$type->name] = $type;
                     break;
 
                 case 'INTERFACE':
-                    $this->interfaces[$type['name']] = $type;
+                    $this->interfaces[$type->name] = $type;
                     break;
 
                 case 'INPUT_OBJECT':
-                    $this->inputObjects[$type['name']] = $type;
+                    $this->inputObjects[$type->name] = $type;
                     break;
 
                 case 'ENUM':
-                    $this->enums[$type['name']] = $type;
+                    $this->enums[$type->name] = $type;
                     break;
             }
         }
     }
 
-    public function getObjectByName(string $name): ?array
+    public function getObjectByName(string $name): ?SchemaObject
     {
         return $this->objects[$name] ?? null;
     }
 
+    /**
+     * @return SchemaObject[]
+     */
     public function getObjects(): array
     {
         return $this->objects;
     }
 
+    /**
+     * @return SchemaObject[]
+     */
     public function getInterfaces(): array
     {
         return $this->interfaces;
     }
 
+    /**
+     * @return SchemaObject[]
+     */
     public function getEnums(): array
     {
         return $this->enums;
     }
 
+    /**
+     * @return SchemaObject[]
+     */
     public function getInputObjects(): array
     {
         return $this->inputObjects;
@@ -94,14 +109,14 @@ class SchemaMappingResolver
         return $this->connectionNodeMap;
     }
 
-    private function unsetUnacceptedObjects(array $schema): array
+    private function unsetUnacceptedObjects(Schema $schema): Schema
     {
-        foreach ($schema as $key => $type) {
-            if (!in_array($type['kind'], self::$acceptsTypeKinds) ||
-                in_array($type['name'], self::$ignoreTypeNames) ||
-                substr($type['name'], 0, 2) === '__'
+        foreach ($schema->schemaObjects as $key => $type) {
+            if (!in_array($type->kind, self::$acceptsTypeKinds) ||
+                in_array($type->name, self::$ignoreTypeNames) ||
+                substr($type->name, 0, 2) === '__'
             ) {
-                unset($schema[$key]);
+                unset($schema->schemaObjects[$key]);
                 continue;
             }
         }
