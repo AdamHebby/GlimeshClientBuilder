@@ -3,13 +3,13 @@
 namespace GlimeshClientBuilder\Tests\CodeBuilders;
 
 use GlimeshClientBuilder\BuilderConfig;
-use GlimeshClientBuilder\CodeBuilders\EnumBuilder;
+use GlimeshClientBuilder\CodeBuilders\InterfaceBuilder;
 use GlimeshClientBuilder\Resolver\SchemaMappingResolver;
 use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
-class EnumBuilderTest extends AbstractBuilderTestCase
+class InterfaceBuilderTest extends AbstractBuilderTestCase
 {
-    protected EnumBuilder $builder;
+    protected InterfaceBuilder $builder;
     protected SchemaMappingResolver $schemaMappingResolver;
 
     protected function setUp(): void
@@ -22,16 +22,16 @@ class EnumBuilderTest extends AbstractBuilderTestCase
 
         $this->schemaMappingResolver = new SchemaMappingResolver($this->schema);
 
-        $this->builder = new EnumBuilder();
+        $this->builder = new InterfaceBuilder();
         $this->builder->setConfig($config);
     }
 
-    public function testBuildEnum(): void
+    public function testBuildInterface(): void
     {
-        $enum     = $this->schemaMappingResolver->getEnumByName('ChannelStatus');
-        $enumCode = $this->builder->buildEnum($enum);
+        $interface     = $this->schemaMappingResolver->getInterfaceByName('ChatMessageToken');
+        $interfaceCode = $this->builder->buildInterface($interface);
 
-        $this->assertStringContainsString('enum ChannelStatus: string', $enumCode);
-        $this->assertStringContainsString('case LIVE = "LIVE"', $enumCode);
+        $this->assertStringContainsString('interface ChatMessageToken', $interfaceCode);
+        $this->assertStringContainsString('namespace TestingNamespace\Interfaces', $interfaceCode);
     }
 }
