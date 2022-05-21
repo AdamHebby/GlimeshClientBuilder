@@ -3,8 +3,9 @@
 namespace GlimeshClientBuilder\Tests\Schema;
 
 use GlimeshClientBuilder\Schema\SchemaInterfacePossibleType;
+use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
-class SchemaInterfacePossibleTypeTest extends AbstractSchemaTestCase
+class SchemaInterfacePossibleTypeTest extends AbstractBuilderTestCase
 {
     public function testSchemaContainsObjectsOfInterfaceTypes(): void
     {

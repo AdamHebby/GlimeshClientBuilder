@@ -4,8 +4,9 @@ namespace GlimeshClientBuilder\Tests\Schema;
 
 use GlimeshClientBuilder\Schema\AbstractSchemaType;
 use GlimeshClientBuilder\Schema\Schema;
+use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
-class SchemaTest extends AbstractSchemaTestCase
+class SchemaTest extends AbstractBuilderTestCase
 {
     public function testLoadFromJsonFile()
     {

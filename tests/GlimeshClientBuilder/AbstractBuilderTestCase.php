@@ -1,10 +1,10 @@
 <?php
 
-namespace GlimeshClientBuilder\Tests\Schema;
+namespace GlimeshClientBuilder\Tests;
 
 use GlimeshClientBuilder\Schema\Schema;
 
-abstract class AbstractSchemaTestCase extends \PHPUnit\Framework\TestCase
+abstract class AbstractBuilderTestCase extends \PHPUnit\Framework\TestCase
 {
     protected Schema $schema;
 
@@ -16,7 +16,7 @@ abstract class AbstractSchemaTestCase extends \PHPUnit\Framework\TestCase
     protected function loadSchema(): Schema
     {
         return Schema::loadFromJsonFile(
-            __DIR__ . '/../../resources/api_20220520.json'
+            __DIR__ . '/../resources/api_20220520.json'
         );
     }
 }

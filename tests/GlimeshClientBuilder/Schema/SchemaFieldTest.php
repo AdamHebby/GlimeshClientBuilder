@@ -3,8 +3,9 @@
 namespace GlimeshClientBuilder\Tests\Schema;
 
 use GlimeshClientBuilder\Schema\SchemaField;
+use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
-class SchemaFieldTest extends AbstractSchemaTestCase
+class SchemaFieldTest extends AbstractBuilderTestCase
 {
     public function testSchemaContainsFields(): void
     {

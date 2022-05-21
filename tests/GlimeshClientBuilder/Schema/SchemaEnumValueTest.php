@@ -3,8 +3,9 @@
 namespace GlimeshClientBuilder\Tests\Schema;
 
 use GlimeshClientBuilder\Schema\SchemaEnumValue;
+use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
-class SchemaEnumValueTest extends AbstractSchemaTestCase
+class SchemaEnumValueTest extends AbstractBuilderTestCase
 {
     public function testSchemaContainsEnumValues(): void
     {

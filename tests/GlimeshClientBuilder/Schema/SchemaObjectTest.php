@@ -3,8 +3,9 @@
 namespace GlimeshClientBuilder\Tests\Schema;
 
 use GlimeshClientBuilder\Schema\SchemaObject;
+use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
-class SchemaObjectTest extends AbstractSchemaTestCase
+class SchemaObjectTest extends AbstractBuilderTestCase
 {
     public function testSchemaContainsObjects(): void
     {

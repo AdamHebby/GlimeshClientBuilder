@@ -3,8 +3,9 @@
 namespace GlimeshClientBuilder\Tests\Schema;
 
 use GlimeshClientBuilder\Schema\SchemaFieldArg;
+use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
-class SchemaFieldArgTest extends AbstractSchemaTestCase
+class SchemaFieldArgTest extends AbstractBuilderTestCase
 {
     public function testSchemaContainsFieldArgs(): void
     {

@@ -3,8 +3,9 @@
 namespace GlimeshClientBuilder\Tests\Schema;
 
 use GlimeshClientBuilder\Schema\SchemaInputField;
+use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
-class SchemaInputFieldTest extends AbstractSchemaTestCase
+class SchemaInputFieldTest extends AbstractBuilderTestCase
 {
     public function testSchemaContainsInputFields(): void
     {

@@ -3,8 +3,9 @@
 namespace GlimeshClientBuilder\Tests\Schema;
 
 use GlimeshClientBuilder\Schema\SchemaInterface;
+use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
-class SchemaInterfaceTest extends AbstractSchemaTestCase
+class SchemaInterfaceTest extends AbstractBuilderTestCase
 {
     public function testSchemaContainsInterface(): void
     {
