@@ -36,13 +36,28 @@ class SchemaMappingResolverTest extends AbstractBuilderTestCase
         );
     }
 
-    public function testMappingGetObjectByName(): void
+    public function testMappingGetByName(): void
     {
         $resolver = new SchemaMappingResolver($this->schema);
 
         $this->assertSame(
             $resolver->getObjects()['UserSocial'],
             $resolver->getObjectByName('UserSocial')
+        );
+
+        $this->assertSame(
+            $resolver->getInterfaces()['ChatMessageToken'],
+            $resolver->getInterfaceByName('ChatMessageToken')
+        );
+
+        $this->assertSame(
+            $resolver->getEnums()['ChannelStatus'],
+            $resolver->getEnumByName('ChannelStatus')
+        );
+
+        $this->assertSame(
+            $resolver->getInputObjects()['StreamMetadataInput'],
+            $resolver->getInputObjectByName('StreamMetadataInput')
         );
     }
 

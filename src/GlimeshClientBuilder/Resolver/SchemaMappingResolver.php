@@ -72,6 +72,21 @@ class SchemaMappingResolver
         return $this->objects[$name] ?? null;
     }
 
+    public function getInterfaceByName(string $name): ?SchemaObject
+    {
+        return $this->interfaces[$name] ?? null;
+    }
+
+    public function getEnumByName(string $name): ?SchemaObject
+    {
+        return $this->enums[$name] ?? null;
+    }
+
+    public function getInputObjectByName(string $name): ?SchemaObject
+    {
+        return $this->inputObjects[$name] ?? null;
+    }
+
     /**
      * @return SchemaObject[]
      */
