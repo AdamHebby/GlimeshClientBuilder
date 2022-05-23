@@ -26,7 +26,8 @@ class InputObjectBuilderTest extends AbstractBuilderTestCase
 
         $fieldBuilder = new FieldBuilder(
             new ObjectResolver(
-                $this->schemaMappingResolver
+                $this->schemaMappingResolver,
+                $config
             ),
             $this->schemaMappingResolver
         );

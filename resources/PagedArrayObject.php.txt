@@ -1,0 +1,17 @@
+<?php
+
+namespace %BUILDER_NAMESPACE%\Objects;
+
+/**
+%BUILDER_STANDARD_DOCBLOCK%
+ */
+class PagedArrayObject extends \ArrayObject
+{
+    public function __construct(
+        array $array,
+        public PageInfo $pageInfo,
+        public int $edgeCount
+    ) {
+        parent::__construct($array);
+    }
+}

@@ -20,22 +20,9 @@ class SchemaMappingResolver
 
     private array $connectionNodeMap = [];
 
-    private static array $ignoreTypeNames = [
-        'RootMutationType',
-    ];
-
-    private static array $acceptsTypeKinds = [
-        'INTERFACE',
-        'OBJECT',
-        'INPUT_OBJECT',
-        'ENUM',
-    ];
-
     public function __construct(
         Schema $schema
     ) {
-        $schema = $this->unsetUnacceptedObjects($schema);
-
         $this->connectionNodeMap = SchemaConnectionNodeMapResolver::resolveSchema(
             $schema
         );
@@ -122,20 +109,5 @@ class SchemaMappingResolver
     public function getConnectionNodeMap(): array
     {
         return $this->connectionNodeMap;
-    }
-
-    private function unsetUnacceptedObjects(Schema $schema): Schema
-    {
-        foreach ($schema->schemaObjects as $key => $type) {
-            if (!in_array($type->kind, self::$acceptsTypeKinds) ||
-                in_array($type->name, self::$ignoreTypeNames) ||
-                substr($type->name, 0, 2) === '__'
-            ) {
-                unset($schema->schemaObjects[$key]);
-                continue;
-            }
-        }
-
-        return $schema;
     }
 }

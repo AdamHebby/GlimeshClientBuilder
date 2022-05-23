@@ -10,7 +10,7 @@ class ObjectResolverTest extends AbstractBuilderTestCase
 {
     public function testResolveString(): void
     {
-        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema));
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
 
         $this->assertEquals(
             'string',
@@ -24,7 +24,7 @@ class ObjectResolverTest extends AbstractBuilderTestCase
     }
     public function testResolveBoolean(): void
     {
-        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema));
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
 
         $this->assertEquals(
             'bool',
@@ -48,7 +48,7 @@ class ObjectResolverTest extends AbstractBuilderTestCase
     }
     public function testResolveDateTime(): void
     {
-        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema));
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
 
         $this->assertEquals(
             '\DateTime',
@@ -72,7 +72,7 @@ class ObjectResolverTest extends AbstractBuilderTestCase
     }
     public function testResolveIdAsString(): void
     {
-        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema));
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
 
         $this->assertEquals(
             'string',
@@ -86,7 +86,7 @@ class ObjectResolverTest extends AbstractBuilderTestCase
     }
     public function testResolveConnectionToObject(): void
     {
-        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema));
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
 
         $this->assertEquals(
             'ChannelBan',
@@ -100,7 +100,7 @@ class ObjectResolverTest extends AbstractBuilderTestCase
     }
     public function testResolveOfType(): void
     {
-        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema));
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
 
         $this->assertEquals(
             'string',
@@ -118,7 +118,7 @@ class ObjectResolverTest extends AbstractBuilderTestCase
     }
     public function testResolveOfTypeReplacement(): void
     {
-        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema));
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
 
         $this->assertEquals(
             '\DateTime',
@@ -137,17 +137,70 @@ class ObjectResolverTest extends AbstractBuilderTestCase
 
     public function testBuildFieldToObjectMap(): void
     {
-        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema));
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
         list($mappingSingle, $mappingMultiple) = $resolver->buildFieldToObjectMap();
 
-        $this->assertEquals('\DateTime', $mappingSingle['insertedAt']);
-        $this->assertEquals('\DateTime', $mappingSingle['updatedAt']);
-        $this->assertEquals('ChannelStatus', $mappingSingle['status']);
-        $this->assertEquals('User', $mappingSingle['streamer']);
+        $this->assertEquals(
+            '\TestingNamespace\Objects\Enums\ChannelStatus::class',
+            $mappingSingle['status']
+        );
+        $this->assertEquals(
+            '\TestingNamespace\Objects\User::class',
+            $mappingSingle['streamer']
+        );
 
-        $this->assertEquals('Tag', $mappingMultiple['tags']);
-        $this->assertEquals('ChannelBan', $mappingMultiple['bans']);
-        $this->assertEquals('Stream', $mappingMultiple['streams']);
-        $this->assertEquals('Category', $mappingMultiple['categories']);
+        $this->assertEquals(
+            '\TestingNamespace\Objects\Tag::class',
+            $mappingMultiple['tags']
+        );
+        $this->assertEquals(
+            '\TestingNamespace\Objects\ChannelBan::class',
+            $mappingMultiple['bans']
+        );
+        $this->assertEquals(
+            '\TestingNamespace\Objects\Stream::class',
+            $mappingMultiple['streams']
+        );
+        $this->assertEquals(
+            '\TestingNamespace\Objects\Category::class',
+            $mappingMultiple['categories']
+        );
+    }
+
+    public function testResolveClassName(): void
+    {
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
+
+        $this->assertEquals(
+            '\TestingNamespace\Objects\Tag::class',
+            $resolver->resolveClassName('Tag')
+        );
+        $this->assertEquals(
+            '\TestingNamespace\Objects\Category::class',
+            $resolver->resolveClassName('Category')
+        );
+        $this->assertEquals(
+            '\TestingNamespace\Objects\Enums\ChannelStatus::class',
+            $resolver->resolveClassName('ChannelStatus')
+        );
+        $this->assertEquals(
+            '\TestingNamespace\Interfaces\ChatMessageToken::class',
+            $resolver->resolveClassName('ChatMessageToken')
+        );
+        $this->assertEquals(
+            '\TestingNamespace\Objects\Input\StreamMetadataInput::class',
+            $resolver->resolveClassName('StreamMetadataInput')
+        );
+    }
+
+    public function testResolveClassNameThrows(): void
+    {
+        $resolver = new ObjectResolver(new SchemaMappingResolver($this->schema), $this->config);
+
+        $this->expectException(\Exception::class);
+        $this->assertEquals(
+            '\\ClassDoesntExist::class',
+            $resolver->resolveClassName('ClassDoesntExist')
+        );
     }
 }

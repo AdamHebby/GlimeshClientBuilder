@@ -25,7 +25,8 @@ class FieldBuilderTest extends AbstractBuilderTestCase
 
         $this->builder = new FieldBuilder(
             new ObjectResolver(
-               $this->schemaMappingResolver
+                $this->schemaMappingResolver,
+                $config
             ),
             $this->schemaMappingResolver
         );

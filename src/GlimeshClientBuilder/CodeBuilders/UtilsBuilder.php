@@ -2,19 +2,14 @@
 
 namespace GlimeshClientBuilder\CodeBuilders;
 
-use GlimeshClientBuilder\Builder;
 use GlimeshClientBuilder\Resolver\ObjectResolver;
-use GlimeshClientBuilder\Resolver\SchemaMappingResolver;
 
 class UtilsBuilder extends AbstractBuilder
 {
-    private ObjectResolver $objectResolver;
-
     public function __construct(
-        private SchemaMappingResolver $resolver
+        private ObjectResolver $objectResolver
     )
     {
-        $this->objectResolver = new ObjectResolver($this->resolver);
     }
 
     public function buildFieldMappingTrait(): string
@@ -43,6 +38,23 @@ class UtilsBuilder extends AbstractBuilder
             []
         );
     }
+
+    public function buildObjectResolverTrait(): string
+    {
+        return $this->templateValues(
+            $this->config->getRootDirectory() . '/resources/ObjectResolverTrait.php.txt',
+            []
+        );
+    }
+
+    public function buildPagedArrayObject(): string
+    {
+        return $this->templateValues(
+            $this->config->getRootDirectory() . '/resources/PagedArrayObject.php.txt',
+            []
+        );
+    }
+
     public function buildAbstractObjectModel(): string
     {
         return $this->templateValues(
@@ -50,7 +62,8 @@ class UtilsBuilder extends AbstractBuilder
             []
         );
     }
-    public function buildAbstractinputObjectModel(): string
+
+    public function buildAbstractInputObjectModel(): string
     {
         return $this->templateValues(
             $this->config->getRootDirectory() . '/resources/AbstractInputObjectModel.php.txt',
@@ -58,27 +71,19 @@ class UtilsBuilder extends AbstractBuilder
         );
     }
 
+    /**
+     * @param array<string,string> $mapping
+     *
+     * @return array<int,string>
+     */
     private function buildClassArray(array $mapping): array
     {
         $code = [];
         $maxLen = max(array_map('strlen', array_keys($mapping)));
 
-        // TODO: FIX THIS
         foreach ($mapping as $key => $object) {
-            $object = trim($object, '\\');
-            $class = "\GlimeshClient\Objects\\{$object}";
-            $enum = "\GlimeshClient\Objects\\Enums\\{$object}";
-
             $tabString = str_repeat(' ', $maxLen - strlen($key));
-
-            if (class_exists($class)) {
-                var_dump(__LINE__);
-                $code[] = "        '{$key}'{$tabString} => {$class}::class,";
-            }
-            if (enum_exists($enum)) {
-                var_dump(__LINE__);
-                $code[] = "        '{$key}'{$tabString} => {$enum}::class,";
-            }
+            $code[] = "        '{$key}'{$tabString} => {$object},";
         }
 
         return $code;

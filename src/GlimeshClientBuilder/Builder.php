@@ -58,7 +58,7 @@ class Builder extends AbstractBuilder
         $schema = Schema::loadFromJsonFile($this->config->getApiJsonFilePath());
 
         $this->resolver           = new SchemaMappingResolver($schema);
-        $this->objectResolver     = new ObjectResolver($this->resolver);
+        $this->objectResolver     = new ObjectResolver($this->resolver, $this->config);
         $this->fieldBuilder       = new FieldBuilder($this->objectResolver, $this->resolver);
         $this->objectBuilder      = new ObjectBuilder($this->fieldBuilder);
         $this->enumBuilder        = new EnumBuilder();
@@ -111,7 +111,7 @@ class Builder extends AbstractBuilder
             );
         }
 
-        $utilsBuilder = new UtilsBuilder($this->resolver);
+        $utilsBuilder = new UtilsBuilder($this->objectResolver);
         $utilsBuilder->setConfig($this->config);
 
         $this->writeCode(
@@ -119,17 +119,25 @@ class Builder extends AbstractBuilder
             'TRAIT',
             'FieldMappingTrait'
         );
-
         $this->writeCode(
             $utilsBuilder->buildObjectModelTrait(),
             'TRAIT',
             'ObjectModelTrait'
         );
-
+        $this->writeCode(
+            $utilsBuilder->buildObjectResolverTrait(),
+            'TRAIT',
+            'ObjectResolverTrait'
+        );
         $this->writeCode(
             $utilsBuilder->buildAbstractObjectModel(),
             'OBJECT',
             'AbstractObjectModel'
+        );
+        $this->writeCode(
+            $utilsBuilder->buildPagedArrayObject(),
+            'OBJECT',
+            'PagedArrayObject'
         );
         $this->writeCode(
             $utilsBuilder->buildAbstractInputObjectModel(),

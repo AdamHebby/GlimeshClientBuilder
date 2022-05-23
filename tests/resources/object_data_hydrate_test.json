@@ -1,0 +1,34 @@
+{
+    "bans": {
+        "count": 1,
+        "edges": [
+            {
+                "node": {
+                    "id": "1253",
+                    "reason": null
+                }
+            }
+        ],
+        "pageInfo": {
+            "endCursor": "YXJyYXljb25uZWN0aW9uOjA=",
+            "hasNextPage": false,
+            "hasPreviousPage": false,
+            "startCursor": "YXJyYXljb25uZWN0aW9uOjA="
+        }
+    },
+    "category": {
+        "id": "1",
+        "insertedAt": "2020-08-16T13:07:39",
+        "name": "Gaming",
+        "slug": "gaming"
+    },
+    "id": "10003",
+    "language": "en",
+    "status": "LIVE",
+    "streamer": {
+        "displayname": "FakeDisplayName_10003",
+        "id": "1222",
+        "insertedAt": "2021-01-09T01:53:21"
+    },
+    "title": "Fake Title"
+}

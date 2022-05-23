@@ -47,7 +47,7 @@ class ObjectBuilder extends AbstractBuilder
     }
 
     /**
-     * @param SchemaInterface $interfaces
+     * @param SchemaInterface[] $interfaces
      */
     protected function getInterfaceUsage(?array $interfaces = []): array
     {

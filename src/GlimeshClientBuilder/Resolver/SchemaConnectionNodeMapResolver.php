@@ -64,6 +64,8 @@ class SchemaConnectionNodeMapResolver
                 return $field->type->ofType->name;
             }
         }
+
+        throw new \Exception('No edges field found');
     }
 
     /**
@@ -76,5 +78,7 @@ class SchemaConnectionNodeMapResolver
                 return $field->type->name;
             }
         }
+
+        throw new \Exception('No node field found');
     }
 }
