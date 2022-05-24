@@ -66,7 +66,7 @@ class AbstractBuilderTest extends AbstractBuilderTestCase
     /**
      * @return AbstractBuilder
      */
-    private function setupBuilder()
+    private function setupBuilder(): AbstractBuilder
     {
         /** @var AbstractBuilder $builder */
         $builder = $this->getMockBuilder(AbstractBuilder::class)

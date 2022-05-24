@@ -12,9 +12,9 @@ class SchemaMappingResolverTest extends AbstractBuilderTestCase
     {
         $resolver = new SchemaMappingResolver($this->schema);
 
-        $this->assertContainsOnlyInstancesOf(SchemaObject::class,     $resolver->getObjects());
-        $this->assertContainsOnlyInstancesOf(SchemaObject::class,  $resolver->getInterfaces());
-        $this->assertContainsOnlyInstancesOf(SchemaObject::class,  $resolver->getEnums());
+        $this->assertContainsOnlyInstancesOf(SchemaObject::class, $resolver->getObjects());
+        $this->assertContainsOnlyInstancesOf(SchemaObject::class, $resolver->getInterfaces());
+        $this->assertContainsOnlyInstancesOf(SchemaObject::class, $resolver->getEnums());
         $this->assertContainsOnlyInstancesOf(SchemaObject::class, $resolver->getInputObjects());
 
         $this->assertGreaterThan(30, $resolver->getObjects());

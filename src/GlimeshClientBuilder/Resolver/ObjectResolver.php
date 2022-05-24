@@ -18,9 +18,7 @@ class ObjectResolver
     public function __construct(
         private readonly SchemaMappingResolver $resolver,
         private readonly BuilderConfig $config
-    )
-    {
-
+    ) {
     }
 
     /**

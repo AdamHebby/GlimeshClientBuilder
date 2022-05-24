@@ -8,7 +8,8 @@ class SchemaType extends AbstractSchemaType
         public readonly string $kind,
         public readonly ?string $name,
         public readonly ?SchemaType $ofType
-    ) {}
+    ) {
+    }
 
     public static function createFromArray(array $schema): self
     {

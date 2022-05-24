@@ -50,7 +50,8 @@ class Builder extends AbstractBuilder
     /**
      * Constructor, loads the API JSON from path & sets up builders & config
      */
-    public function __construct(BuilderConfig $config) {
+    public function __construct(BuilderConfig $config)
+    {
         $this->setConfig($config);
 
         self::$ROOT_DIR = $this->config->getRootDirectory();

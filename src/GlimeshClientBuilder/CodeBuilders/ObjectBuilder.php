@@ -11,7 +11,8 @@ class ObjectBuilder extends AbstractBuilder
 {
     public function __construct(
         private FieldBuilder $fieldBuilder
-    ) {}
+    ) {
+    }
 
     public function buildObject(
         SchemaObject $object

@@ -8,8 +8,7 @@ class UtilsBuilder extends AbstractBuilder
 {
     public function __construct(
         private ObjectResolver $objectResolver
-    )
-    {
+    ) {
     }
 
     public function buildFieldMappingTrait(): string
@@ -89,4 +88,3 @@ class UtilsBuilder extends AbstractBuilder
         return $code;
     }
 }
-

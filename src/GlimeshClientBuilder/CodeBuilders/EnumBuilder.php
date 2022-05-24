@@ -14,7 +14,7 @@ class EnumBuilder extends AbstractBuilder
         }, $type->enumValues ?? []);
 
         return $this->templateValues(
-           $this->config->getRootDirectory() . '/resources/enum.php.txt',
+            $this->config->getRootDirectory() . '/resources/enum.php.txt',
             [
                 '%BUILDER_DESCRIPTION%' => $type->description ?? 'Description not provided',
                 '%BUILDER_NAME%'        => $type->name,

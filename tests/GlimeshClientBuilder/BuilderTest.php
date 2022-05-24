@@ -15,7 +15,7 @@ class BuilderTest extends TestCase
         $this->deleteFiles(self::$outputDir);
     }
 
-    private function deleteFiles($filePath): void
+    private function deleteFiles(string $filePath): void
     {
         $files = glob($filePath . '/*');
         foreach ($files as $file) {

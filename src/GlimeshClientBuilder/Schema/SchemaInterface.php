@@ -9,7 +9,8 @@ class SchemaInterface extends AbstractSchemaType
     public function __construct(
         public readonly string $name,
         public readonly ?string $ofType
-    ) {}
+    ) {
+    }
 
     public static function createFromArray(array $schema): self
     {

@@ -38,10 +38,16 @@ class Schema
         );
     }
 
+    /**
+     * @param SchemaObject[] $schemaObjects
+     *
+     * @return SchemaObject[]
+     */
     private static function unsetUnacceptedObjects(array $schemaObjects): array
     {
         foreach ($schemaObjects as $key => $type) {
-            if (!in_array($type->kind, self::$acceptsTypeKinds) ||
+            if (
+                !in_array($type->kind, self::$acceptsTypeKinds) ||
                 in_array($type->name, self::$ignoreTypeNames) ||
                 substr($type->name, 0, 2) === '__'
             ) {

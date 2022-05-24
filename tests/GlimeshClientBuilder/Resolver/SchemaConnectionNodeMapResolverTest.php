@@ -12,7 +12,7 @@ class SchemaConnectionNodeMapResolverTest extends AbstractBuilderTestCase
 {
     public function testSchemaConnectionNodeMapResolverBasic(): void
     {
-        $resolver = new SchemaConnectionNodeMapResolver($this->schema);
+        $resolver = new SchemaConnectionNodeMapResolver();
 
         $this->assertNotEmpty($resolver->resolveSchema($this->schema));
     }
@@ -41,7 +41,7 @@ class SchemaConnectionNodeMapResolverTest extends AbstractBuilderTestCase
                 );
             }
         }
-        $resolver = new SchemaConnectionNodeMapResolver($this->schema);
+        $resolver = new SchemaConnectionNodeMapResolver();
 
         $this->expectException(\Exception::class);
         $resolver->resolveSchema($this->schema);
@@ -71,7 +71,7 @@ class SchemaConnectionNodeMapResolverTest extends AbstractBuilderTestCase
                 );
             }
         }
-        $resolver = new SchemaConnectionNodeMapResolver($this->schema);
+        $resolver = new SchemaConnectionNodeMapResolver();
 
         $this->expectException(\Exception::class);
         $resolver->resolveSchema($this->schema);

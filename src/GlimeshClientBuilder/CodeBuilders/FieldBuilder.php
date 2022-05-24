@@ -13,9 +13,7 @@ class FieldBuilder extends AbstractBuilder
     public function __construct(
         private ObjectResolver $objectResolver,
         private SchemaMappingResolver $resolver
-    )
-    {
-
+    ) {
     }
 
     /**
@@ -37,8 +35,10 @@ class FieldBuilder extends AbstractBuilder
         $fieldType = $this->objectResolver->resolveField($field);
         $fieldDoc  = $fieldType;
 
-        if (isset($this->resolver->getConnectionNodeMap()[$field->type->name]) ||
-            (isset($field->type->kind) && $field->type->kind === 'LIST')) {
+        if (
+            isset($this->resolver->getConnectionNodeMap()[$field->type->name]) ||
+            (isset($field->type->kind) && $field->type->kind === 'LIST')
+        ) {
             $fieldDoc = "\ArrayObject<$fieldType>";
             $fieldType = '\ArrayObject';
         }

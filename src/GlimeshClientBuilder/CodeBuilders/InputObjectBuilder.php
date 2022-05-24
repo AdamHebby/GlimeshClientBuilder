@@ -8,7 +8,8 @@ class InputObjectBuilder extends AbstractBuilder
 {
     public function __construct(
         private FieldBuilder $fieldBuilder
-    ) {}
+    ) {
+    }
 
     public function buildInputObject(SchemaObject $type): string
     {

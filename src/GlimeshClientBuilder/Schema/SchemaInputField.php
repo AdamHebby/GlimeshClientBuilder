@@ -9,7 +9,8 @@ class SchemaInputField extends AbstractSchemaType
         public readonly ?string $description,
         public readonly string $name,
         public readonly SchemaType $type
-    ) {}
+    ) {
+    }
 
     public static function createFromArray(array $schema): self
     {

@@ -20,7 +20,8 @@ class SchemaObject extends AbstractSchemaType
         public readonly array $possibleTypes,
         public readonly array $interfaces,
         public readonly array $inputFields
-    ) {}
+    ) {
+    }
 
     public static function createFromArray(array $schema): self
     {

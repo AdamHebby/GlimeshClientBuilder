@@ -10,14 +10,19 @@ use GlimeshClientBuilder\Schema\SchemaObject;
  */
 class SchemaMappingResolver
 {
+    /** @var SchemaObject[] $objects */
     private array $objects = [];
 
+    /** @var SchemaObject[] $interfaces */
     private array $interfaces = [];
 
+    /** @var SchemaObject[] $enums */
     private array $enums = [];
 
+    /** @var SchemaObject[] $inputObjects */
     private array $inputObjects = [];
 
+    /** @var array<string,string> $connectionNodeMap */
     private array $connectionNodeMap = [];
 
     public function __construct(
@@ -28,7 +33,8 @@ class SchemaMappingResolver
         );
 
         foreach ($schema->schemaObjects as $type) {
-            if (SchemaConnectionNodeMapResolver::isAnEdge($type) ||
+            if (
+                SchemaConnectionNodeMapResolver::isAnEdge($type) ||
                 SchemaConnectionNodeMapResolver::isANode($type)
             ) {
                 continue;

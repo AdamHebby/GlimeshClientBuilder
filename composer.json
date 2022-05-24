@@ -17,7 +17,15 @@
         }
     ],
     "scripts": {
-        "test": "phpunit"
+        "phpunit": [
+            "XDEBUG_MODE=coverage php vendor/bin/phpunit"
+        ],
+        "phpcs": [
+            "php vendor/bin/phpcs --standard=zend src/ tests/GlimeshClientBuilder/"
+        ],
+        "phpstan": [
+            "php vendor/bin/phpstan analyse"
+        ]
     },
     "require": {
         "php": ">=8.1.0"
@@ -25,6 +33,7 @@
     "require-dev": {
         "phpunit/php-code-coverage": "^9.2",
         "phpunit/phpunit": "^9.5",
-        "rector/rector": "^0.12.23"
+        "rector/rector": "^0.12.23",
+        "squizlabs/php_codesniffer": "^3.6"
     }
 }

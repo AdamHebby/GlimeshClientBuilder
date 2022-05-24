@@ -8,7 +8,7 @@ use GlimeshClientBuilder\Tests\AbstractBuilderTestCase;
 
 class SchemaTest extends AbstractBuilderTestCase
 {
-    public function testLoadFromJsonFile()
+    public function testLoadFromJsonFile(): void
     {
         $this->assertInstanceOf(Schema::class, $this->schema);
         $this->assertInstanceOf(AbstractSchemaType::class, $this->schema->schemaObjects[0]);
