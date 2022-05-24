@@ -4,7 +4,7 @@
 use GlimeshClientBuilder\BuilderConfig;
 use GlimeshClientBuilder\Builder;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
 
 $acceptedDocNames = [
     "author",
