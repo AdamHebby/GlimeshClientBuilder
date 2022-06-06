@@ -11,7 +11,6 @@ class Schema
 
     private static array $ignoreTypeNames = [
         'RootMutationType',
-        'RootSubscriptionType',
     ];
 
     private static array $acceptsTypeKinds = [

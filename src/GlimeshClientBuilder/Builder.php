@@ -38,6 +38,13 @@ class Builder extends AbstractBuilder
         'TRAIT'         => '/Traits',
     ];
 
+    /** For ignores that we want the types of but dont want to build */
+    private static array $finalIgnores = [
+        'RootQueryType',
+        'RootMutationType',
+        'RootSubscriptionType',
+    ];
+
     private SchemaMappingResolver $resolver;
     private ObjectResolver $objectResolver;
     private FieldBuilder $fieldBuilder;
@@ -81,35 +88,43 @@ class Builder extends AbstractBuilder
     public function build()
     {
         foreach ($this->resolver->getInterfaces() as $interface) {
-            $this->writeCode(
-                $this->interfaceBuilder->buildInterface($interface),
-                $interface->kind,
-                $interface->name
-            );
+            if (!in_array($interface->name, self::$finalIgnores)) {
+                $this->writeCode(
+                    $this->interfaceBuilder->buildInterface($interface),
+                    $interface->kind,
+                    $interface->name
+                );
+            }
         }
 
         foreach ($this->resolver->getEnums() as $enum) {
-            $this->writeCode(
-                $this->enumBuilder->buildEnum($enum),
-                $enum->kind,
-                $enum->name
-            );
+            if (!in_array($enum->name, self::$finalIgnores)) {
+                $this->writeCode(
+                    $this->enumBuilder->buildEnum($enum),
+                    $enum->kind,
+                    $enum->name
+                );
+            }
         }
 
         foreach ($this->resolver->getInputObjects() as $inputs) {
-            $this->writeCode(
-                $this->inputObjectBuilder->buildInputObject($inputs),
-                $inputs->kind,
-                $inputs->name
-            );
+            if (!in_array($inputs->name, self::$finalIgnores)) {
+                $this->writeCode(
+                    $this->inputObjectBuilder->buildInputObject($inputs),
+                    $inputs->kind,
+                    $inputs->name
+                );
+            }
         }
 
         foreach ($this->resolver->getObjects() as $object) {
-            $this->writeCode(
-                $this->objectBuilder->buildObject($object),
-                $object->kind,
-                $object->name
-            );
+            if (!in_array($object->name, self::$finalIgnores)) {
+                $this->writeCode(
+                    $this->objectBuilder->buildObject($object),
+                    $object->kind,
+                    $object->name
+                );
+            }
         }
 
         $utilsBuilder = new UtilsBuilder($this->objectResolver);
