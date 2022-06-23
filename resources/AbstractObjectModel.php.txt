@@ -1,0 +1,10 @@
+<?php
+
+namespace %BUILDER_NAMESPACE%\Objects;
+
+/**
+%BUILDER_STANDARD_DOCBLOCK%
+ */
+abstract class AbstractObjectModel
+{
+}

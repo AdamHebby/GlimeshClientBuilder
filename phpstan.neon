@@ -1,0 +1,16 @@
+parameters:
+	level: 5
+	paths:
+		- src
+		- tests
+
+	ignoreErrors:
+		-
+			path: "tests/GlimeshClientBuilder/BuilderTest.php"
+			message: "#Instantiated class TestingNamespaceOutput(.*?) not found#"
+		-
+			path: "tests/GlimeshClientBuilder/BuilderTest.php"
+			message: "#Access to property (.*?) on an unknown class TestingNamespaceOutput(.*?)#"
+		-
+			path: "tests/GlimeshClientBuilder/BuilderTest.php"
+			message: "#(.*?)assertInstanceOf\\(\\) expects (.*?), string given.#"

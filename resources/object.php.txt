@@ -1,0 +1,14 @@
+<?php
+
+namespace %BUILDER_NAMESPACE%\Objects;
+%BUILDER_USE%
+/**
+ * %BUILDER_DESCRIPTION%
+%BUILDER_STANDARD_DOCBLOCK%
+ */
+class %BUILDER_NAME% extends AbstractObjectModel%BUILDER_INTERFACES%
+{
+    use ObjectModelTrait;
+
+%BUILDER_FIELDS%
+}
